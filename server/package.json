@@ -1,0 +1,15 @@
+{
+  "name": "burger-builder-api",
+  "version": "1.0.0",
+  "description": "burguer buidlder service api (backend)",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "api",
+    "burger-builder"
+  ],
+  "author": "Siavash Ghanbari",
+  "license": "ISC"
+}
