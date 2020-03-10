@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Layout from './hoc/Layout/Layout';
 import BurgerBuilder from './containers/BurgerBuilder/BurgerBuilder';
+import Checkout from './containers/Checkout/Checkout';
 
 export default class App extends Component {
     render() {
@@ -9,6 +10,7 @@ export default class App extends Component {
                 <h2>App!</h2>
                 <Layout>
                     <BurgerBuilder />
+                    <Checkout />
                 </Layout>
             </div>
         );
