@@ -5,9 +5,9 @@ import Button from '../../UI/Button/Button';
 // This could be functional component
 class OrderSummary extends Component {
     // this is an non-necessary life-cycle just for learning!
-    componentWillUpdate() {
-        console.log('ODRDER-SUMMARY: componentWillUpdate()');
-    }
+    // componentWillUpdate() {
+    //     console.log('ODRDER-SUMMARY: componentWillUpdate()');
+    // }
     // shouldComponentUpdate(nextProps, nextState) {
     //     if (this.props.visiable) {
     //         return true;

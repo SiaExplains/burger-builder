@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import style from './DrawerToggle.module.css';
 const drawerToggle = props => {
     return (

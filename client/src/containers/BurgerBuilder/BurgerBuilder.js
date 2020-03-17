@@ -29,7 +29,7 @@ class BurgerBuilder extends Component {
         axios
             .get('https://burger-builder-458f2.firebaseio.com/ingredients.json')
             .then(response => {
-                console.log(response);
+                // console.log(response);
                 this.setState({ ingredients: response.data });
             })
             .catch(err => {
@@ -55,7 +55,7 @@ class BurgerBuilder extends Component {
 
     removeIngredientHandler = type => {
         const oldCount = this.state.ingredients[type];
-        if (oldCount == 0) {
+        if (oldCount === 0) {
             return;
         }
         const newCount = oldCount - 1;
@@ -100,39 +100,21 @@ class BurgerBuilder extends Component {
     };
 
     purchaseContinueHandler = () => {
-        this.setState({
-            loading: true
+        const queryParams = [];
+        for (let i in this.state.ingredients) {
+            queryParams.push(
+                encodeURIComponent(i) +
+                    '=' +
+                    encodeURIComponent(this.state.ingredients[i])
+            );
+        }
+        queryParams.push('price=' + this.state.totalPrice);
+        const queryString = queryParams.join('&');
+        // console.log(queryString);
+        this.props.history.push({
+            pathname: '/checkout',
+            search: '?' + queryString
         });
-        const order = {
-            ingredients: this.state.ingredients,
-            price: this.state.totalPrice,
-            customer: {
-                name: 'Siavash Ghanbari',
-                address: {
-                    street: 'Judith Str.',
-                    zipcode: '12345',
-                    country: 'Germany'
-                },
-                email: 'test@test.com'
-            },
-            deliveryMethod: 'fastest'
-        };
-        axios
-            .post('/orders.json', order)
-            .then(res => {
-                console.log(res);
-                this.setState({
-                    loading: false,
-                    purchasing: false
-                });
-            })
-            .catch(err => {
-                console.log(err);
-                this.setState({
-                    loading: false,
-                    purchasing: false
-                });
-            });
     };
 
     render() {
