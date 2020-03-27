@@ -5,7 +5,7 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 import { Provider } from 'react-redux';
-import reducer from './store/reducers/ingredients';
+import reducerBuilder from './store/reducers/builder';
 import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
@@ -24,7 +24,7 @@ const loggerMiddleware = store => {
 const compseEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-    reducer,
+    reducerBuilder,
     compseEnhancers(applyMiddleware(loggerMiddleware, thunk))
 );
 

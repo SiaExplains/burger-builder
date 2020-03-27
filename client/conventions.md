@@ -10,3 +10,4 @@ Before starting to write code we should decalre, and define our conventions.
 
 all component should store in a separate directory with Pascal-Case.
 e.g: Box, BurgerComponent, Student, MenuListModal, etc.
+---------------------------------------+
