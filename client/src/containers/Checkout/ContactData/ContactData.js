@@ -6,6 +6,8 @@ import classes from './ContactData.module.css';
 import axios from '../../../axios-order';
 import Input from '../../../components/UI/Input/Input';
 import { connect } from 'react-redux';
+import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
+import * as actions from '../../../store/actions/index';
 
 class ContactData extends Component {
     state = {
@@ -85,13 +87,12 @@ class ContactData extends Component {
                 valid: true
             }
         },
-        formIsValid: false,
-        loading: false
+        formIsValid: false
     };
 
     orderHandler = event => {
         event.preventDefault();
-        this.setState({ loading: true });
+
         const formData = {};
         for (let key in this.state.orderForm) {
             formData[key] = this.state.orderForm[key].value;
@@ -102,15 +103,7 @@ class ContactData extends Component {
             price: this.props.price,
             orderData: formData
         };
-        axios
-            .post('/orders.json', order)
-            .then(response => {
-                this.setState({ loading: false });
-                this.props.history.push('/');
-            })
-            .catch(error => {
-                this.setState({ loading: false });
-            });
+        this.props.onOrderPurchase(order);
     };
     checkValidity = element => {
         const { value, validation } = element;
@@ -197,9 +190,19 @@ class ContactData extends Component {
 
 const mapStateToProps = state => {
     return {
-        ings: state.ingredients,
-        price: state.totalPrice
+        ings: state.builder.ingredients,
+        price: state.builder.totalPrice,
+        loading: state.order.loading
     };
 };
 
-export default connect(mapStateToProps)(ContactData);
+const mapDispatchToProps = dispatch => {
+    return {
+        onOrderPurchase: order => dispatch(actions.saveOrderOnFirebase(order))
+    };
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withErrorHandler(ContactData, axios));

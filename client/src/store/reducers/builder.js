@@ -6,14 +6,14 @@ import { updateObject } from '../utility'; // BEST PRACTICE IN FUTURE!
 const initialState = {
     ingredients: null,
     totalPrice: 4,
-    error: false
+    error: false,
 };
 
 const INGREDIENT_PRICES = {
     salad: 0.5,
     cheese: 0.4,
     meat: 1.3,
-    bacon: 0.6
+    bacon: 0.6,
 };
 
 const initActionHandler = (state, action) => {
@@ -25,39 +25,52 @@ const initActionHandler = (state, action) => {
             salad: action.ingredients.salad,
             bacon: action.ingredients.bacon,
             cheese: action.ingredients.cheese,
-            meat: action.ingredients.meat
+            meat: action.ingredients.meat,
         },
-        error: false
+        totalPrice: 4,
+        error: false,
     };
 };
 
 const initFailedActionHandler = (state, action) => {
     return {
         ...state,
-        error: true
+        error: true,
     };
 };
 
 const addActionHandler = (state, action) => {
-    let newState = { ...state };
-    let newIngredients = { ...newState.ingredients };
-    newIngredients[action.ingredientName] =
-        state.ingredients[action.ingredientName] + 1;
-    newState.totalPrice =
-        state.totalPrice + INGREDIENT_PRICES[action.ingredientName];
-    newState.ingredients = newIngredients;
-    return newState;
+    const updatedIngredient = {
+        [action.ingredientName]: state.ingredients[action.ingredientName] + 1,
+    };
+    const updatedIngredients = updateObject(
+        state.ingredients,
+        updatedIngredient
+    );
+
+    let updatedState = {
+        totalPrice: state.totalPrice + INGREDIENT_PRICES[action.ingredientName],
+        ingredients: updatedIngredients,
+    };
+
+    return updateObject(state, updatedState);
 };
 
 const removeActionHandler = (state, action) => {
-    let newState = { ...state };
-    let newIngredients = { ...newState.ingredients };
-    newIngredients[action.ingredientName] =
-        state.ingredients[action.ingredientName] - 1;
-    newState.totalPrice =
-        state.totalPrice - INGREDIENT_PRICES[action.ingredientName];
-    newState.ingredients = newIngredients;
-    return newState;
+    const updatedIngredient = {
+        [action.ingredientName]: state.ingredients[action.ingredientName] - 1,
+    };
+    const updatedIngredients = updateObject(
+        state.ingredients,
+        updatedIngredient
+    );
+
+    let updatedState = {
+        totalPrice: state.totalPrice - INGREDIENT_PRICES[action.ingredientName],
+        ingredients: updatedIngredients,
+    };
+
+    return updateObject(state, updatedState);
 };
 
 const burgerReducer = (state = initialState, action) => {

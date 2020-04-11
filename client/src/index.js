@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import App from './App';
 import { Provider } from 'react-redux';
 import reducerBuilder from './store/reducers/builder';
+import reducerOrder from './store/reducers/order';
 import { createStore, compose, combineReducers, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
@@ -21,10 +22,15 @@ const loggerMiddleware = store => {
     };
 };
 
+const rootReducer = combineReducers({
+    builder: reducerBuilder,
+    order: reducerOrder
+});
+
 const compseEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-    reducerBuilder,
+    rootReducer,
     compseEnhancers(applyMiddleware(loggerMiddleware, thunk))
 );
 
